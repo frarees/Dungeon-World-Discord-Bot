@@ -1,7 +1,7 @@
 //requirements for redis save file
 const redis = require('redis');
 const jsonify = require('redis-jsonify');
-const save = jsonify(redis.createClient());
+const save = jsonify(redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true}));
 module.exports = storage = {
     get: function (channelId){
         return new Promise((resolve,reject) => {
