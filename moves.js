@@ -9,6 +9,7 @@ module.exports = moves = {
  - CHECK YOUR CHARACTER STATS: ?character\n\
  - SET CHARACTER STATS: ?set\n\
  - ROLL SOME DICE: ?roll\n\
+ - DEFY DANGER: ?defy\n\
  - HACK AND SLASH: ?hack\n\
  - VOLLEY: ?volley\n\
  - DEFEND: ?defend\n\
@@ -48,11 +49,11 @@ Enter this command at any time to check on your character stats.',
     },
     set: {
         key: ['set', 'stats', 'setstats', 'statset'],
-        text: 'SET STATS: !set MOD+NUM ...\nTo set your character stats,\
- enter the command followed by all the stats you want to set. Use the first\
- three letters of the stat type +/- stat number. Unentered stats will default\
- to zero or their existing number. Example: !set name+Shmoopy str+1 cha-1 ... etc',
-        error: 'Incorrect input, use the format: !set name+Shmoopy str+1 cha-1 etc...',
+        text: 'SET STATS: !set stat+value ...\nTo set your character stats,\
+ enter the command followed by all the stats you want to set. Use the \
+ stat type +/- stat value. Unentered stats will default\
+ to zero or their existing value. Example: !set name+bambino str+1 cha-1 ... etc',
+        error: 'Incorrect input, use the format: !set name+bambino str+1 cha-1 etc...',
         method: functions.setStats
     },
     roll: {
