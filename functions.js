@@ -1,5 +1,5 @@
 const storage = require('./redis.js')
-module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, moveRoll}
+module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll}
 
 //functions
 function removePrefix(message){
@@ -106,6 +106,28 @@ function characterSheet(userMessage, userId, channelId, userNickname, moves, use
         statPrintout.push(`${key}: ${value}`)
     }
     return statPrintout
+}
+
+function shift(userMessage, userId, channelId, userNickname, moves, userData){
+    if(!userData[userId]){newCharacter(userMessage, userId, channelId, userNickname, moves, userData)};
+    let shiftPrintout = ['CHANGES:'];
+    for(let [key, value] of Object.entries(moves.abilities.stats)){
+        userMessage.forEach(i => {
+            if(i.startsWith(value[0])){
+                i = i.slice(value[0].length)
+                function hasNumber(string) {return /\d/.test(string)}
+                let stat = hasNumber(i)
+                let numerical = hasNumber(value)
+                if(stat && numerical){
+                    i = parseInt(i)
+                    userData[userId][key] = userData[userId][key] + i,
+                    shiftPrintout.push(`${key}: ${userData[userId][key]}`)
+                }
+            }
+        })
+    }
+    if(!shiftPrintout[1]){shiftPrintout = moves.shift.error}
+    return shiftPrintout
 }
 
 function setStats(userMessage, userId, channelId, userNickname, moves, userData){

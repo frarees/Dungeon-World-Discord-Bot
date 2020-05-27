@@ -8,6 +8,7 @@ module.exports = moves = {
  - NEWCHARACTER: ?newcharacter\n\
  - CHECK YOUR CHARACTER STATS: ?character\n\
  - SET CHARACTER STATS: ?set\n\
+ - SHIFT CHARACTER STATS: ?shift\n\
  - ROLL SOME DICE: ?roll\n\
  - DEFY DANGER: ?defy\n\
  - HACK AND SLASH: ?hack\n\
@@ -32,7 +33,8 @@ module.exports = moves = {
                 CON: ['con', 0],
                 INT: ['int', 0],
                 WIS: ['wis', 0],
-                CHA: ['cha', 0]
+                CHA: ['cha', 0],
+                HP: ['hp', 0]
         }
         },
     newCharacter: {
@@ -55,6 +57,16 @@ Enter this command at any time to check on your character stats.',
  to zero or their existing value. Example: !set name+bambino str+1 cha-1 ... etc',
         error: 'Incorrect input, use the format: !set name+bambino str+1 cha-1 etc...',
         method: functions.setStats
+    },
+    shift: {
+        key: 'shift',
+        text: 'SHIFT STATS: !shift stat+/-num...\nTo shift your character stats\
+ by a certain amount, enter the command followed by the stats you want to shift\
+ and the amount to change them. Example: !shift str+1 will increase your strength by 1.\
+ !shift hp-5 will remove 5 from your hp.',
+        error: 'Incorrect input, use the format: !shift str+1 hp-5 etc...\
+ (this only works for numerical values)',
+        method: functions.shift
     },
     roll: {
         key: ['roll'],

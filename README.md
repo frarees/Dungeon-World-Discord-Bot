@@ -6,9 +6,9 @@ A bot designed to streamline Dungeon World play on a Discord server. The bot all
 
 Althought this project was a labor of love, it was still labor. If you'd like to support this and future projects, please consider [leaving a tip](https://www.paypal.me/minibradford). Thanks for your support!
 
-## For Users
+## For Discord Users
 
-To add the Dungeon World Bot to your Discord server, click this [link](https://discord.com/api/oauth2/authorize?client_id=712847626386669568&permissions=0&scope=bot). Once the bot is logged in, type ?menu in the chat to access the in-chat menu.
+To add the Dungeon World Bot to your Discord server, click this [link](https://discord.com/api/oauth2/authorize?client_id=712847626386669568&permissions=0&scope=bot). Once the bot is logged in, type `?menu` in the chat to access the in-chat menu.
 
 ### Commands
 
@@ -18,6 +18,8 @@ Once the bot is logged in, `?menu` or `!menu` will take you to the in-chat menu.
  * `!character` - Enter this command at any time to check on your character stats.
  * `!set stat+value` - To set your character stats, enter the command `!set` followed by all the stats you want to set. Use the stat type +/- stat value. Unentered stats will default to zero or their existing value.
  Example: `!set name+bambino str+1 wis+2 cha-1 ... etc`
+ * `!shift stat+value` - Use this command to change your character stats by a certain amount. This is useful if you want to subtract from your hp, or when leveling up. The stat will shift up or down by the value amount.
+ Example: `!shift hp-5` will remove 5 from your character's current hp.
  * `!roll xdy +z` - Use the format !roll xdy +z where x = number of die, y = faces on die, and z = positive or negative modifier, if any. You can also enter the stat name as a modifier and it will use your stat value.
  EXAMPLE: `!roll 2d6 +1` OR `!roll 2d6 +wis`
  * `!defy +stat` - To defy danger type the command plus the chosen stat.
