@@ -14,12 +14,13 @@ function removePrefix(message){
 
 function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     let die = userMessage[1];
+    let mod = 0
     if (!die) {return moves.roll.error};
-    let mod = userMessage[2];
+    if(userMessage[2]){
     for(let [key, value] of Object.entries(moves.abilities.stats)){
         if(value[0] === userMessage[2].slice(1).toLowerCase())
             {mod = userData[userId][value[0].toUpperCase()]}
-    }
+    }}
     let modifier = parseInt(mod);
     if (isNaN(modifier)){
         modifier = 0;};
