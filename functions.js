@@ -17,10 +17,13 @@ function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     let mod = 0
     if (!die) {return moves.roll.error};
     if(userMessage[2]){
-    for(let [key, value] of Object.entries(moves.abilities.stats)){
-        if(value[0] === userMessage[2].slice(1).toLowerCase())
-            {mod = userData[userId][value[0].toUpperCase()]}
-    }}
+        for(let [key, value] of Object.entries(moves.abilities.stats)){
+            if(value[0] === userMessage[2].slice(1).toLowerCase()){
+            mod = userData[userId][value[0].toUpperCase()]
+            break
+        } else {mod = userMessage[2]}
+    }
+}
     let modifier = parseInt(mod);
     if (isNaN(modifier)){
         modifier = 0;};
