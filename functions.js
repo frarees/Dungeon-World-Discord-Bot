@@ -56,6 +56,7 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
     let modStat = 0
     let rollText = ''
     let moveText = ''
+    let showStat = ''
     let input = userMessage[1];
     input = parseInt(input);
     if(moves[i].stat === 'num'){
@@ -64,7 +65,10 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
     } else if(moves[i].stat === 'stat'){
         if(!userMessage[1]){return 'You need to add a +STAT to your command'}
         modStat = userData[userId][userMessage[1].slice(1).toUpperCase()]
-    } else {modStat = userData[userId][moves[i].stat.toUpperCase()];}
+    } else {
+        modStat = userData[userId][moves[i].stat.toUpperCase()];
+        showStat = ` ${moves[i].stat.toUpperCase()}`
+    }
     if(!modStat){modStat = 0};
     let moveRoll = roll(2, 6);
     let total = moveRoll[0];
@@ -81,14 +85,17 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
         moveText =  moves[i].fail
     }
     if (modStat >= 0){
-			rollText = `You rolled (${result}) = ${total} + ${modStat}. That’s ${grandTotal}.`}
+			rollText = `You rolled (${result}) = ${total} + ${modStat}${showStat}. That’s ${grandTotal}.`}
 	else if (modStat < 0) {
 			modStat = Math.abs(modStat);
-			rollText = `You rolled (${result}) = ${total} - ${modStat}. That’s ${grandTotal}.`}
+			rollText = `You rolled (${result}) = ${total} - ${modStat}${showStat}. That’s ${grandTotal}.`}
     return `${rollText}\n${moveText}`
 }
 
 function newCharacter(userMessage, userId, channelId, userNickname, moves, userData){
+    if(!userData.characterCount){userData.characterCount = 0}
+    userData.characterCount++
+    console.log(userData.characterCount)
     userData[userId] = {}
     let person = {};
     for(let [key, value] of Object.entries(moves.abilities.stats)){
@@ -96,7 +103,8 @@ function newCharacter(userMessage, userId, channelId, userNickname, moves, userD
     }
     userData[userId] = person;
     storage.set(channelId, userData);
-    return 'Created a blank character'
+    return 'CREATED A BLANK CHARACTER: Type !character to view,\
+ or ?set to learn how to set your character stat.'
 }
 
 function characterSheet(userMessage, userId, channelId, userNickname, moves, userData){
