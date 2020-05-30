@@ -15,15 +15,17 @@ function removePrefix(message){
 function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     let die = userMessage[1];
     let mod = 0
+    let showStat = ''
     if (!die) {return moves.roll.error};
     if(userMessage[2]){
         for(let [key, value] of Object.entries(moves.abilities.stats)){
-            if(value[0] === userMessage[2].slice(1).toLowerCase()){
-            mod = userData[userId][value[0].toUpperCase()]
-            break
-        } else {mod = userMessage[2]}
+            if(key === userMessage[2].slice(1).toUpperCase()){
+                mod = userData[userId][key]
+                showStat = ` ${key}`
+                break
+            } else {mod = userMessage[2]}
+        }
     }
-}
     let modifier = parseInt(mod);
     if (isNaN(modifier)){
         modifier = 0;};
@@ -39,10 +41,10 @@ function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
         if (modifier === 0 && !userMessage[2]){
             return (`You rolled (${result} ) = ${total}.`)}
         else if (modifier >= 0){
-            return (`You rolled (${result} ) = ${total} + ${modifier}. That's ${grandTotal}.`)}
+            return (`You rolled (${result} ) = ${total} + ${modifier}${showStat}. That's ${grandTotal}.`)}
         else if (modifier < 0) {
         modifier = Math.abs(modifier);
-            return (`You rolled (${result} ) = ${total} - ${modifier}. That's ${grandTotal}.`)}
+            return (`You rolled (${result} ) = ${total} - ${modifier}${showStat}. That's ${grandTotal}.`)}
 }
 
 function roll(num, faces){
@@ -108,7 +110,8 @@ function newCharacter(userMessage, userId, channelId, userNickname, moves, userD
     userData[userId] = person;
     storage.set(channelId, userData);
     return 'CREATED A BLANK CHARACTER: Type !character to view,\
- or ?set to learn how to set your character stat.'
+ or ?set to learn how to set your character stat. You must have\
+ a character set up in order to use the moves.'
 }
 
 function characterSheet(userMessage, userId, channelId, userNickname, moves, userData){

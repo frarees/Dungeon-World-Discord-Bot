@@ -27,6 +27,7 @@ client.on('message', async message => {
 //load userData from redis
     userData = await storage.get(channelId);
     if(message.content.startsWith('!')){
+        if(!userData[userId]){userMessage[0] = 'newcharacter'}
         for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
                 message.channel.send(moves[i].method(userMessage, userId, channelId, userNickname, moves, userData, i))
@@ -34,6 +35,7 @@ client.on('message', async message => {
 		};
     }
     else if (message.content.startsWith('?')){
+        if(!userMessage[0]){userMessage[0] = 'empty'}
 		for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
                 message.channel.send(moves[i]['text']);

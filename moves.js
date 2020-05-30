@@ -72,10 +72,10 @@ Enter this command at any time to check on your character stats.',
         key: ['roll'],
         text: 'ROLL DICE: !roll xdy +z\n\
 Use the format !roll xdy +z where x = number of die, y = faces on die, and z = positive\
- or negative modifier, if any.\nEXAMPLE: !roll 2d6 +1 OR !roll 2d6 +wis',
+ or negative modifier, if any.\nEXAMPLE: !roll 2d6 +1  OR  !roll 2d6 +wis (SPACES MATTER!)',
         error: 'INCORRECT INPUT: Please use the format !roll xdy +z where x = number\
  of die, y = faces on die, and z = positive or negative modifier, if any.\n\
-EXAMPLE: !roll 2d6 +1 (spaces matter!)',
+EXAMPLE: !roll 2d6 +1  OR  !roll 2d6 +str (SPACES MATTER!)',
         method: functions.xdyRoll
     },
     hackAndSlash: {
