@@ -147,20 +147,29 @@ function shift(userMessage, userId, channelId, userNickname, moves, userData){
 
 function setStats(userMessage, userId, channelId, userNickname, moves, userData){
     if(!userData[userId]){newCharacter(userMessage, userId, channelId, userNickname, moves, userData)};
-
+    let setErrors = []
     for(let [key, value] of Object.entries(moves.abilities.stats)){
         userMessage.forEach(i => {
             if(i.startsWith(value[0])){
-                i = i.slice(value[0].length)
-                function hasNumber(string) {return /\d/.test(string)}
-                let stat = hasNumber(i)
-                if(stat){
+                if(value[0]==="name"){
+                    i = i.slice(value[0].length)
+                    i = i.slice(1).toUpperCase()
+                    if(i==='NICKNAME'){i = userNickname};
+                    if(!i){setErrors.push(moves.set.error)}
+                    else{userData[userId][key] = i}
+                } else {
+                    i = i.slice(value[0].length)
+                    function hasNumber(string) {return /\d/.test(string)}
+                    let stat = hasNumber(i)
                     i = parseInt(i)
-                } else {i = i.slice(1).toUpperCase()}
-                if(!i){return moves.set.error}
-                else {userData[userId][key] = i}
+                    if(isNaN(i)){setErrors.push(moves.set.error)}
+                    if(stat){
+                        userData[userId][key] = i 
+                    } else{setErrors.push(moves.set.error)}
+                }
             }
         })
     }
-    return characterSheet(userMessage, userId, channelId, userNickname, moves, userData)
+    if(setErrors[0]){return setErrors[0]}
+    else{return characterSheet(userMessage, userId, channelId, userNickname, moves, userData)}
 }

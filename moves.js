@@ -52,9 +52,10 @@ Enter this command at any time to check on your character stats.',
     set: {
         key: ['set', 'stats', 'setstats', 'statset'],
         text: 'SET STATS: !set stat+value ...\nTo set your character stats,\
- enter the command followed by all the stats you want to set. Use the \
+ enter the command followed by all the STAT MODIFIERS you want to set. Use the \
  stat type +/- stat value. Unentered stats will default\
- to zero or their existing value. Example: !set name+bambino str+1 cha-1 ... etc',
+ to zero or their existing value.\n\
+EXAMPLE: !set name+bambino str+1 cha-1 ... etc',
         error: 'Incorrect input, use the format: !set name+bambino str+1 cha-1 etc...',
         method: functions.setStats
     },
@@ -62,7 +63,8 @@ Enter this command at any time to check on your character stats.',
         key: 'shift',
         text: 'SHIFT STATS: !shift stat+/-num...\nTo shift your character stats\
  by a certain amount, enter the command followed by the stats you want to shift\
- and the amount to change them. Example: !shift str+1 will increase your strength by 1.\
+ and the amount to change them.\n\
+EXAMPLE: !shift str+1 will increase your strength by 1.\
  !shift hp-5 will remove 5 from your hp.',
         error: 'Incorrect input, use the format: !shift str+1 hp-5 etc...\
  (this only works for numerical values)',
