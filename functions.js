@@ -14,21 +14,9 @@ function removePrefix(message){
 
 function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     let die = userMessage[1];
-    let mod = 0
     let showStat = ''
+    let modStat = 0
     if (!die) {return moves.roll.error};
-    if(userMessage[2]){
-        for(let [key, value] of Object.entries(moves.abilities.stats)){
-            if(key === userMessage[2].slice(1).toUpperCase()){
-                mod = userData[userId][key]
-                showStat = ` ${key}`
-                break
-            } else {mod = userMessage[2]}
-        }
-    }
-    let modifier = parseInt(mod);
-    if (isNaN(modifier)){
-        modifier = 0;};
     let xdy = die.split('d');
     let num = parseInt(xdy[0]);
         if (isNaN(num)){return moves.roll.error};
@@ -37,14 +25,41 @@ function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     const dieRoll = roll(num, faces);
     let total = parseInt(dieRoll[0]);
     let result = dieRoll[1];
-    let grandTotal = (total + modifier);
-        if (modifier === 0 && !userMessage[2]){
-            return (`You rolled (${result} ) = ${total}.`)}
-        else if (modifier >= 0){
-            return (`You rolled (${result} ) = ${total} + ${modifier}${showStat}. That's ${grandTotal}.`)}
-        else if (modifier < 0) {
-        modifier = Math.abs(modifier);
-            return (`You rolled (${result} ) = ${total} - ${modifier}${showStat}. That's ${grandTotal}.`)}
+    let addOn = 0
+    if(userMessage[2] || userMessage[3]){
+        function hasNumber(string) {return /\d/.test(string)}
+                let statOne = hasNumber(userMessage[2]);
+                let statTwo = hasNumber(userMessage[3]);
+        for(let [key, value] of Object.entries(moves.abilities.stats)){
+            userMessage.forEach(i => {
+                if(i.startsWith(value[0]) || i.startsWith(`+${value[0]}`)){
+                    modStat = parseInt(userData[userId][key])
+                    showStat = ` ${key}`
+                }
+            })    
+        }
+        if(statOne){
+            addOn = parseInt(userMessage[2]);
+            if(addOn>=0){addOnPrint = `+${addOn}`}
+            else{addOnPrint = addOn}
+            result.push(` (${addOnPrint})`)
+        } 
+        if(statTwo){
+            addOn = parseInt(userMessage[3]);
+            if(addOn>=0){addOnPrint = `+${addOn}`}
+            else{addOnPrint = addOn}
+            result.push(` (${addOnPrint})`)
+        }
+    }
+    total = total + addOn;
+    let grandTotal = total + modStat;
+        if (!modStat){
+            return (`You rolled [${result} ] = ${total}.`)}
+        else if (modStat >= 0){
+            return (`You rolled [${result} ] = ${total} + ${modStat}${showStat}. That's ${grandTotal}.`)}
+        else if (modStat < 0) {
+        modStat = Math.abs(modStat);
+            return (`You rolled [${result} ] = ${total} - ${modStat}${showStat}. That's ${grandTotal}.`)}
 }
 
 function roll(num, faces){
@@ -79,11 +94,36 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
     let moveRoll = roll(2, 6);
     let total = moveRoll[0];
     let result = moveRoll[1];
-    result = `${result[0]}, ${result[1]} `
+    let addOn = 0
+    if(userMessage[1] || userMessage[2]){
+        function hasNumber(string) {return /\d/.test(string)}
+                let statOne = hasNumber(userMessage[1]);
+                let statTwo = hasNumber(userMessage[2]);
+        for(let [key, value] of Object.entries(moves.abilities.stats)){
+            userMessage.forEach(i => {
+                if(i.startsWith(value[0]) || i.startsWith(`+${value[0]}`)){
+                    modStat = parseInt(userData[userId][key])
+                    showStat = ` ${key}`
+                }
+            })    
+        }
+        if(statOne){
+            addOn = parseInt(userMessage[1]);
+            if(moves[i].stat === 'num'){addOn = 0;}
+            else if(addOn>=0){addOnPrint = `+${addOn}`; result.push(` (${addOnPrint})`)}
+            else{addOnPrint = addOn; result.push(` (${addOnPrint})`)}
+            
+        }   
+        if(statTwo){
+            addOn = parseInt(userMessage[2]);
+            if(addOn>=0){addOnPrint = `+${addOn}`}
+            else{addOnPrint = addOn}
+            result.push(` (${addOnPrint})`)
+        }
+    }
+    total = total + addOn;
     let grandTotal = total + modStat;
-    if (grandTotal >= 13){
-        moveText = moves[i].greatSuccess
-    } else if (grandTotal >= 10 && grandTotal <= 12){
+    if (grandTotal >= 10){
 		moveText = moves[i].success
 	} else if (9 >= grandTotal && grandTotal >= 7){
         moveText = moves[i].mixed
@@ -91,10 +131,10 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
         moveText =  moves[i].fail
     }
     if (modStat >= 0){
-			rollText = `You rolled (${result}) = ${total} + ${modStat}${showStat}. That’s ${grandTotal}.`}
+			rollText = `You rolled [${result} ] = ${total} + ${modStat}${showStat}. That’s ${grandTotal}.`}
 	else if (modStat < 0) {
 			modStat = Math.abs(modStat);
-			rollText = `You rolled (${result}) = ${total} - ${modStat}${showStat}. That’s ${grandTotal}.`}
+			rollText = `You rolled [${result} ] = ${total} - ${modStat}${showStat}. That’s ${grandTotal}.`}
     return `${rollText}\n${moveText}`
 }
 
