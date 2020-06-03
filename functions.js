@@ -269,10 +269,6 @@ function damage(userMessage, userId, channelId, userNickname, moves, userData){
         else if (modNum < 0){modNumDisp = Math.abs(modNum); modAddon = ` - ${modNumDisp}`}
     let damGrandTotal = damDieRoll[0] + modDieRoll[0] + modNum
 
-    console.log('grand total = ' + damGrandTotal)
-    console.log(modDieRoll)
-    console.log(modNum)
-
     if(modDieRoll[0]!==0 || modNum!==0)
         {return `You deal [ ${damDieRoll[0]}${modDieAddon}${modAddon} ] = ${damGrandTotal} damage!`}
     else{return `You deal ${damGrandTotal} damage!`}

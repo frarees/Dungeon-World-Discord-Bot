@@ -30,6 +30,7 @@ client.on('message', async message => {
         if(!userData[userId]){userMessage[0] = 'newcharacter'}
         for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
+                console.log('!')
                 message.channel.send(moves[i].method(userMessage, userId, channelId, userNickname, moves, userData, i))
 			};
 		};
@@ -38,6 +39,7 @@ client.on('message', async message => {
         if(!userMessage[0]){userMessage[0] = 'empty'}
 		for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
+                console.log('?')
                 message.channel.send(moves[i]['text']);
 			};
 		};
