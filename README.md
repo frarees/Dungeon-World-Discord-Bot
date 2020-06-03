@@ -24,7 +24,10 @@ Once the bot is logged in, `?menu` or `!menu` will take you to the in-chat menu.
  EXAMPLE: `!roll 2d6 +1` OR `!roll 2d6 +wis`
  * `!defy +stat` - To defy danger type the command plus the chosen stat.
  Example: `!defy +wis`
- * `!hack`, `!volley`, `!defend`, `!spout`, `!discern`, `!parley` - The basic DW moves automatically roll a 2d6 and add the relevant stat from your character sheet.
+ * `!hack`, `!volley`, `!defend`, `!spout`, `!discern`, `!parley` - The basic DW moves automatically roll a 2d6 and add the relevant stat from your character sheet. You can change the traditional stat for the move, or add a +/-num to any move.  
+ EXAMPLE: `!hack +cha` will roll Hack & Slash with CHA instead of STR. `!spout +1` will roll Spout Lore and add 1 to the result.
+ * `!dam` - Once setting you damage die on your character sheet, you can easily roll damage by typing `!dam` and adding any modifiers, either as numbers or additional rolls.  
+ EXAMPLE: `!dam +1` OR `!dam +1d4` or any combination
  * Some all-class advanced moves are also programmed into the bot, and can be found in the in-chat menu. Advanced moves may take a stat, a number, or nothing as a modifier.
  * Anything not programmed as a bot move can be dealt with using a `!roll` command.
 

@@ -34,6 +34,7 @@ module.exports = moves = {
                 INT: ['int', 0],
                 WIS: ['wis', 0],
                 CHA: ['cha', 0],
+                DAM: ['dam', '!set dam+(d4, d6, d8 or d10)'],
                 HP: ['hp', 0]
         }
         },
@@ -79,6 +80,19 @@ Use the format !roll xdy +z where x = number of die, y = faces on die, and z = p
  of die, y = faces on die, and z = positive or negative modifier, if any.\n\
 EXAMPLE: !roll 2d6 +1  OR  !roll 2d6 +str (SPACES MATTER!)',
         method: functions.xdyRoll
+    },
+    damage: {
+        key: ['dam', 'damage'],
+        text: 'ROLL DAMAGE: !dam +num\n\
+ After setting your damage die with !set dam+(d4, d6, d8 or d10), you can easily\
+ roll damage after an attack with !dam plus or minus any modifiers from weapons, etc.\
+ You can also add additional rolls such as !dam +1d4 which will roll your damage die\
+ and add an additional 1d4 roll.\n\
+EXAMPLE: !dam  OR  !dam +1  OR  !dam +1d4  OR  !dam -1 +1d4',
+        error: 'INCORRECT INPUT:\n\
+Enter a damage die value in your CHARACTER SHEET.\n\
+EXAMPLE: !set dam+d4',
+        method: functions.damage
     },
     hackAndSlash: {
         key: ['hack', 'hackandslash', 'slash'],

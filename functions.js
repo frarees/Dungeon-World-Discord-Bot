@@ -1,5 +1,5 @@
 const storage = require('./redis.js')
-module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll}
+module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll, damage}
 
 //functions
 function removePrefix(message){
@@ -197,6 +197,12 @@ function setStats(userMessage, userId, channelId, userNickname, moves, userData)
                     if(i==='NICKNAME'){i = userNickname};
                     if(!i){setErrors.push(moves.set.error)}
                     else{userData[userId][key] = i}
+                } else if(value[0] === "dam"){
+                    i = i.slice(value[0].length)
+                    i = i.slice(1).toLowerCase()
+                    if(i==='d4' || i==='d6' || i==='d8' || i==='d10'){
+                        userData[userId][key] = i
+                    } else {setErrors.push(moves.damage.error)}
                 } else {
                     i = i.slice(value[0].length)
                     function hasNumber(string) {return /\d/.test(string)}
@@ -212,4 +218,62 @@ function setStats(userMessage, userId, channelId, userNickname, moves, userData)
     }
     if(setErrors[0]){return setErrors[0]}
     else{return characterSheet(userMessage, userId, channelId, userNickname, moves, userData)}
+}
+
+function damage(userMessage, userId, channelId, userNickname, moves, userData){
+    let damDie = userData[userId]['DAM']
+    let modDieRoll = [0, 0]
+    let modNum = 0
+    let damDieRoll = [0, 0]
+    let posNeg = ''
+    switch (damDie){
+        case 'd4':
+            damDieRoll = roll(1, 4)
+            break;
+        case 'd6':
+            damDieRoll = roll(1, 6)
+            break;
+        case 'd8':
+            damDieRoll = roll(1, 8)
+            break;
+        case 'd10':
+            damDieRoll = roll(1, 10)
+            break;
+        default:
+            return moves.damage.error
+    }
+    userMessage.forEach(i => {
+        const xdyregex = /[+-]\d+d\d+/
+        const modregex = /[+-]\d+/
+        if(xdyregex.test(i)){
+        if(i==='+'){posNeg = 'pos'}
+        if(i==='-'){posNeg = 'neg'}
+        let xdy = i.split('d');
+        let num = parseInt(xdy[0]);
+        num = Math.abs(num)
+        let faces = parseInt(xdy[1]);
+        modDieRoll = roll(num, faces);
+
+        } else if (modregex.test(i)){
+        modNum = parseInt(i)
+        }
+
+    })
+    if(posNeg === 'neg'){modDieRoll[0] = -Math.abs(modDieRoll[0])}
+    if(modDieRoll[0]===0){modDieAddon = ''}
+        else if(modDieRoll[0] > 0){modDieAddon = ` + ${modDieRoll[0]}`}
+        else if(modDieRoll[0] < 0 ){modDieRollDisp = Math.abs(modDieRoll[0]); modDieAddon = ` - ${modDieRollDisp}`}
+
+    if(modNum===0){modAddon = ''} 
+        else if(modNum > 0){modAddon = ` + ${modNum}`}
+        else if (modNum < 0){modNumDisp = Math.abs(modNum); modAddon = ` - ${modNumDisp}`}
+    let damGrandTotal = damDieRoll[0] + modDieRoll[0] + modNum
+
+    console.log('grand total = ' + damGrandTotal)
+    console.log(modDieRoll)
+    console.log(modNum)
+
+    if(modDieRoll[0]!==0 || modNum!==0)
+        {return `You deal [ ${damDieRoll[0]}${modDieAddon}${modAddon} ] = ${damGrandTotal} damage!`}
+    else{return `You deal ${damGrandTotal} damage!`}
 }
