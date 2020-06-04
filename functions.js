@@ -1,7 +1,7 @@
 const storage = require('./redis.js')
 const redis = require('redis');
 const jsonify = require('redis-jsonify');
-const save = jsonify(redis.createClient());
+const save = jsonify(redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true}));
 
 module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll, messageCounter}
 
@@ -145,9 +145,6 @@ function moveRoll(userMessage, userId, channelId, userNickname, moves, userData,
 }
 
 function newCharacter(userMessage, userId, channelId, userNickname, moves, userData){
-    if(!userData.characterCount){userData.characterCount = 0}
-    userData.characterCount++
-    console.log(userData.characterCount)
     userData[userId] = {}
     let person = {};
     for(let [key, value] of Object.entries(moves.abilities.stats)){
@@ -161,7 +158,6 @@ function newCharacter(userMessage, userId, channelId, userNickname, moves, userD
 }
 
 function characterSheet(userMessage, userId, channelId, userNickname, moves, userData){
-    if(!userData[userId]){newCharacter(userMessage, userId, channelId, userNickname, moves, userData)};
     statPrintout = ['Here are your CHARACTER STATS:'];
     for(let [key, value] of Object.entries(userData[userId])){
         statPrintout.push(`${key}: ${value}`)
@@ -170,7 +166,6 @@ function characterSheet(userMessage, userId, channelId, userNickname, moves, use
 }
 
 function shift(userMessage, userId, channelId, userNickname, moves, userData){
-    if(!userData[userId]){newCharacter(userMessage, userId, channelId, userNickname, moves, userData)};
     let shiftPrintout = ['CHANGES:'];
     for(let [key, value] of Object.entries(moves.abilities.stats)){
         userMessage.forEach(i => {
@@ -192,7 +187,6 @@ function shift(userMessage, userId, channelId, userNickname, moves, userData){
 }
 
 function setStats(userMessage, userId, channelId, userNickname, moves, userData){
-    if(!userData[userId]){newCharacter(userMessage, userId, channelId, userNickname, moves, userData)};
     let setErrors = []
     for(let [key, value] of Object.entries(moves.abilities.stats)){
         userMessage.forEach(i => {
