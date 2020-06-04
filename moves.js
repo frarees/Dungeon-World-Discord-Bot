@@ -91,7 +91,7 @@ EXAMPLE: !roll 2d6 +1  OR  !roll 2d6 +str (SPACES MATTER!)',
  and add an additional 1d4 roll.\n\
 EXAMPLE: !dam  OR  !dam +1  OR  !dam +1d4  OR  !dam -1 +1d4',
         error: 'INCORRECT INPUT:\n\
-Enter a damage die value in your CHARACTER SHEET.\n\
+Set a damage die value (d4, d6, d8, or d10) in your CHARACTER SHEET.\n\
 EXAMPLE: !set dam+d4',
         method: functions.damage
     },
