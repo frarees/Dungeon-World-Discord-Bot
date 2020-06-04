@@ -1,5 +1,9 @@
 const storage = require('./redis.js')
-module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll, damage}
+const redis = require('redis');
+const jsonify = require('redis-jsonify');
+const save = jsonify(redis.createClient());
+
+module.exports = {removePrefix, xdyRoll, roll, newCharacter, characterSheet, setStats, shift, moveRoll, messageCounter}
 
 //functions
 function removePrefix(message){
@@ -20,8 +24,10 @@ function xdyRoll(userMessage, userId, channelId, userNickname, moves, userData){
     let xdy = die.split('d');
     let num = parseInt(xdy[0]);
         if (isNaN(num)){return moves.roll.error};
+        if (num>200){return "Maximum die roll = 200d2000"}
     let faces = parseInt(xdy[1]);
         if (isNaN(faces)){return moves.roll.error};
+        if (faces>2000){return "Maximum die roll = 200d2000"}
     const dieRoll = roll(num, faces);
     let total = parseInt(dieRoll[0]);
     let result = dieRoll[1];
@@ -272,4 +278,14 @@ function damage(userMessage, userId, channelId, userNickname, moves, userData){
     if(modDieRoll[0]!==0 || modNum!==0)
         {return `You deal [ ${damDieRoll[0]}${modDieAddon}${modAddon} ] = ${damGrandTotal} damage!`}
     else{return `You deal ${damGrandTotal} damage!`}
+}
+
+function messageCounter(){
+    save.get('messageCounter', function (err, result) {
+        if(!result){result=0} 
+        result++
+        console.log(result);
+        save.set('messageCounter', result)
+    });
+        
 }

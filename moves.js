@@ -10,6 +10,7 @@ module.exports = moves = {
  - SET CHARACTER STATS: ?set\n\
  - SHIFT CHARACTER STATS: ?shift\n\
  - ROLL SOME DICE: ?roll\n\
+ - ROLL DAMAGE: ?dam\n\
  - DEFY DANGER: ?defy\n\
  - HACK AND SLASH: ?hack\n\
  - VOLLEY: ?volley\n\

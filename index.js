@@ -27,6 +27,9 @@ client.on('message', async message => {
 //load userData from redis
     userData = await storage.get(channelId);
     if(message.content.startsWith('!')){
+        //counts the number of total user messages
+        functions.messageCounter()
+
         if(!userData[userId]){userMessage[0] = 'newcharacter'}
         for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
@@ -36,6 +39,9 @@ client.on('message', async message => {
 		};
     }
     else if (message.content.startsWith('?')){
+        //counts the number of total user messages
+        functions.messageCounter()
+        
         if(!userMessage[0]){userMessage[0] = 'empty'}
 		for (i in moves) {
             if (moves[i]['key'].includes(userMessage[0])){
