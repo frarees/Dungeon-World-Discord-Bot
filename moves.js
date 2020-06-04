@@ -3,7 +3,7 @@ const functions = require('./functions.js');
 //text library object
 module.exports = moves = {
     menu: {
-        key: 'menu',
+        key: ['help', 'menu'],
         text: 'TO LEARN ABOUT EACH MOVE, TYPE THE COMMAND:\n\n\
  - NEWCHARACTER: ?newcharacter\n\
  - CHECK YOUR CHARACTER STATS: ?character\n\
